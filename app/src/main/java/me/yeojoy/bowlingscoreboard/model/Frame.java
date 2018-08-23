@@ -13,7 +13,7 @@ public class Frame {
         NONE, // no score
         FIRST_SHOT_ENDED, // first shot finished
         SECOND_SHOT_ENDED, // second shot finished. only on frame 10.
-        HOLDING, // if strike or spare, waiting next shot to calculate score
+        HOLDING, // if strike or spare, waiting next shot to™ calculate score
         FINISHED // all process are finished.
     }
 

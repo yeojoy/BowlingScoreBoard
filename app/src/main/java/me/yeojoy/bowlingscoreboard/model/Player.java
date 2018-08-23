@@ -33,6 +33,10 @@ public class Player {
         this.name = name;
     }
 
+    public void removeFrames() {
+        frames.clear();
+    }
+
     @Override
     public boolean equals(Object player) {
         return this.name == ((Player) player).getName() || (this.name.equals(((Player) player).getName()));
