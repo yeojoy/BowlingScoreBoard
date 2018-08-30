@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import me.yeojoy.bowlingscoreboard.exception.ScoreException;
 import me.yeojoy.bowlingscoreboard.logic.BowlingManager;
 import me.yeojoy.bowlingscoreboard.logic.ScoreCalculator;
 import me.yeojoy.bowlingscoreboard.model.Frame;
@@ -23,7 +24,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void setScore() {
+    public void setScore() throws ScoreException {
         ScoreCalculator scoreCalculator = new ScoreCalculator();
         Player player = new Player();
         List<Frame> frames = player.getFrames();
@@ -109,7 +110,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testAll5Score() {
+    public void testAll5Score() throws ScoreException {
         ScoreCalculator scoreCalculator = new ScoreCalculator();
         Player player = new Player();
         List<Frame> frames = player.getFrames();
@@ -179,7 +180,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testPerfectGame() {
+    public void testPerfectGame() throws ScoreException {
         ScoreCalculator scoreCalculator = new ScoreCalculator();
         Player player = new Player();
         List<Frame> frames = player.getFrames();
@@ -240,7 +241,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testSinglePlayWithBowlingManager() {
+    public void testSinglePlayWithBowlingManager() throws ScoreException {
         BowlingManager manager = BowlingManager.getInstance();
 
         Player player = new Player("yeojoy");
@@ -265,7 +266,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testSinglePlayWithBowlingManagerAll5() {
+    public void testSinglePlayWithBowlingManagerAll5() throws ScoreException {
         BowlingManager manager = BowlingManager.getInstance();
 
         Player player = new Player("yeojoy");
@@ -306,7 +307,7 @@ public class ExampleUnitTest {
         assertEquals(171, scoreCalculator.getScoreAtFrame(player.getFrames(), 10));
     }
     @Test
-    public void testSinglePlayTwice() {
+    public void testSinglePlayTwice() throws ScoreException {
         BowlingManager manager = BowlingManager.getInstance();
 
         Player player = new Player("yeojoy");
@@ -365,7 +366,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testTwoPlayersWithBowlingManager8and2() {
+    public void testTwoPlayersWithBowlingManager8and2() throws ScoreException {
         BowlingManager manager = BowlingManager.getInstance();
 
         Player player1 = new Player("yeojoy");

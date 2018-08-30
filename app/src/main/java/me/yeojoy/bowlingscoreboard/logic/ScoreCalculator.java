@@ -2,6 +2,7 @@ package me.yeojoy.bowlingscoreboard.logic;
 
 import java.util.List;
 
+import me.yeojoy.bowlingscoreboard.exception.ScoreException;
 import me.yeojoy.bowlingscoreboard.model.BonusScore;
 import me.yeojoy.bowlingscoreboard.model.Frame;
 import me.yeojoy.bowlingscoreboard.model.Score;
@@ -49,7 +50,7 @@ public class ScoreCalculator {
         return frameScore;
     }
 
-    public void setScore(List<Frame> frames, int frameNumber, int score) {
+    public void setScore(List<Frame> frames, int frameNumber, int score) throws ScoreException {
 
         if (frames == null) return;
 
@@ -84,6 +85,9 @@ public class ScoreCalculator {
 
                 case FIRST_SHOT_ENDED: {
                     Score scoreInFrame = frame.getScore();
+                    if (score + scoreInFrame.getFirstShotScore() > 10) {
+                        throw(new ScoreException("Cannot overflow frame's total score over 10."));
+                    }
                     scoreInFrame.setSecondShotScore(score);
 
                     if (scoreInFrame.getFirstShotScore() + score == 10) {

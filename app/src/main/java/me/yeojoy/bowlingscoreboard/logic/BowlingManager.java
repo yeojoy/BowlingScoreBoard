@@ -3,6 +3,7 @@ package me.yeojoy.bowlingscoreboard.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yeojoy.bowlingscoreboard.exception.ScoreException;
 import me.yeojoy.bowlingscoreboard.model.Frame;
 import me.yeojoy.bowlingscoreboard.model.Player;
 
@@ -13,6 +14,8 @@ public class BowlingManager {
 
     private List<Player> players;
     private static int frameNumber;
+    private OnAllowFrameScoreListener mOnAllowFrameScoreListener;
+    private OnEndGameCallback mOnEndGameCallback;
 
     public static BowlingManager getInstance() {
         if (bowlingManager == null) {
@@ -76,7 +79,8 @@ public class BowlingManager {
         return null;
     }
 
-    public void setScore(Player player, int score) {
+    public void setScore(Player player, int score) throws ScoreException,
+            NullPointerException, IllegalArgumentException {
 
         if (player == null) {
             throw(new NullPointerException("No players."));
@@ -95,6 +99,20 @@ public class BowlingManager {
         }
 
         scoreCalculator.setScore(frames, frameNumber, score);
+
+        if (mOnAllowFrameScoreListener != null &&
+                frames.get(frameNumber - 1).getFrameState() == Frame.FrameState.FIRST_SHOT_ENDED) {
+            mOnAllowFrameScoreListener.onAllowedScore(10 - score);
+        } else {
+            mOnAllowFrameScoreListener.onAllowedScore(10);
+        }
+
+        if (mOnEndGameCallback != null && frameNumber == 10) {
+            Frame lastFrame = frames.get(frameNumber - 1);
+            if (lastFrame.getFrameState() == Frame.FrameState.FINISHED) {
+                mOnEndGameCallback.onEndGameCallback();
+            }
+        }
 
         checkFrame();
     }
@@ -130,5 +148,21 @@ public class BowlingManager {
 
     public int getFrameNumber() {
         return frameNumber;
+    }
+
+    public void setOnAllowFrameScoreListener(OnAllowFrameScoreListener onAllowFrameScoreListener) {
+        mOnAllowFrameScoreListener = onAllowFrameScoreListener;
+    }
+
+    public void setOnEndGameCallback(OnEndGameCallback onEndGameCallback) {
+        mOnEndGameCallback = onEndGameCallback;
+    }
+
+    public interface OnAllowFrameScoreListener {
+        void onAllowedScore(int allowedScore);
+    }
+
+    public interface OnEndGameCallback {
+        void onEndGameCallback();
     }
 }
